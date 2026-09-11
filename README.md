@@ -30,7 +30,7 @@ Comprehensive Validation: Validates email formats, non-empty names, and restrict
 Prerequisites & Installation
 Ensure Python 3.10+ is installed.
 
-Install the required dependencies:
+Install the required dependencies by running:
 pip install rich pytest
 
 Usage & Command Reference
@@ -51,7 +51,7 @@ python main.py list-projects --user "Alex"
 Add a Task to a Project
 python main.py add-task --project "CLI Tool" --title "Implement add-task" --assigned-to "Alex"
 
-Complete a task
+Complete a Task
 python main.py complete-task --project "CLI Tool" --task-id 1
 
 Running Tests
