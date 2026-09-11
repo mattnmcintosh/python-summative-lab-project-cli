@@ -1,58 +1,91 @@
-Project Management Tool CLI
+# Project Management Tool CLI
+
 A modular, object-oriented Python command-line interface (CLI) application for managing users, projects, and tasks with local JSON data persistence and rich terminal output.
 
-Architecture & Design
-This application demonstrates a clean separation of concerns and object-oriented best practices, organized into distinct layers:
+## Project Overview
 
-CLI Entry Point (main.py): Handles command-line argument parsing (argparse), subcommands routing, and displays formatted tabular data using the rich library.
+This application provides an administrative system for managing development teams, tracking projects, and assigning tasks through structured CLI commands. It demonstrates a clean separation of concerns and object-oriented best practices across domain models, storage utilities, and presentation layers.
 
-Domain Models (lib/models/):
+## Setup Instructions
 
-Person: Base class handling common attributes and validation (name, email).
+1. Ensure Python 3.10 or higher is installed on your system.
+2. Clone or download the project repository to your local machine.
+3. Open your terminal and navigate to the project root directory.
 
-User: Inherits from Person and manages a collection of projects (one-to-many relationship).
+## Dependency Installation Instructions
 
-Project: Manages titles, descriptions, due dates, and a collection of tasks (one-to-many relationship).
+Install the required external packages (`rich` and `pytest`) using pip:
 
-Task: Tracks task status (Pending, In Progress, Completed), task assignment, and unique identifiers.
-
-Storage Utility (lib/utils/storage.py): Encapsulates file I/O operations, safely serializing and deserializing domain objects to and from local JSON storage.
-
-Key Features
-Object-Oriented Programming: Utilizes inheritance (Person -> User), @property decorators with setter validation, and class-level ID counters.
-
-Rich CLI Formatting: Clean, colorized tables and status indicators for users and projects.
-
-Data Persistence: Automatically saves all changes to data/project_tracker.json.
-
-Comprehensive Validation: Validates email formats, non-empty names, and restricted task statuses.
-
-Prerequisites & Installation
-Ensure Python 3.10+ is installed.
-
-Install the required dependencies by running:
+```bash
 pip install rich pytest
+```
 
-Usage & Command Reference
-Run commands from the project root directory using Python:
+Alternatively, if managing via Pipenv:
 
-Add a User
+```bash
+pipenv install rich
+pipenv install --dev pytest
+```
+
+## How to Run the CLI
+
+Execute commands from the project root directory by invoking the main script with Python:
+
+```bash
+python main.py [command] [options]
+```
+
+## Example Commands
+
+### Add a User
+```bash
 python main.py add-user --name "Alex" --email "alex@example.com"
+```
 
-List All Users
+### List All Users
+```bash
 python main.py list-users
+```
 
-Add a Project to a User
+### Add a Project to a User
+```bash
 python main.py add-project --user "Alex" --title "CLI Tool" --description "Project tracker CLI" --due-date "2026-12-31"
+```
 
-List Projects
+### List Projects
+```bash
 python main.py list-projects --user "Alex"
+```
 
-Add a Task to a Project
+### Add a Task to a Project
+```bash
 python main.py add-task --project "CLI Tool" --title "Implement add-task" --assigned-to "Alex"
+```
 
-Complete a Task
+### Complete a Task
+```bash
 python main.py complete-task --project "CLI Tool" --task-id 1
+```
 
-Running Tests
-Execute the unit test suite using pytest
+## Explanation of the File Structure
+
+* `main.py`: CLI entry point handling argument parsing (`argparse`), subcommand routing, and rich tabular output.
+* `lib/models/`: Contains core object-oriented domain classes:
+  * `person.py`: Base class providing shared attributes and validation.
+  * `user.py`: Manages user profiles and project collections (one-to-many relationship).
+  * `project.py`: Manages project metadata and task collections (one-to-many relationship).
+  * `task.py`: Tracks task assignment, status (`Pending`, `In Progress`, `Completed`), and unique identifiers.
+* `lib/utils/`: Encapsulates file I/O operations (`storage.py`) for JSON serialization/deserialization.
+* `data/`: Stores local persistence files (`project_tracker.json`).
+* `testing/`: Houses the Pytest automated unit test suite.
+
+## Overview of Features
+
+* **Object-Oriented Design:** Utilizes class inheritance (`Person` -> `User`), encapsulation via `@property` setters with data validation, and class-level ID counters.
+* **Rich Terminal Output:** Renders clean, colorized tables and status indicators using the `rich` library.
+* **Local Data Persistence:** Automatically saves system state to JSON and gracefully recovers from missing or malformed data files.
+* **Comprehensive Test Coverage:** Unit tests verifying model validations, storage handling, and CLI workflows.
+
+## Known Issues or Limitations
+
+* Data persistence is handled locally in a single JSON file; concurrent multi-process writes are not supported.
